@@ -140,11 +140,12 @@ i can call to the ros2 topic list and take the topic of the esc - maby its batte
 
 
 
-i do little change here to use ros
-1) to lunch the optical flow - use this command:  ros2 launch camera_flow_pkg drone_Ai_launch.py
 
-2) need now to make again the code for the esc telemtry - need to make somthing for myself ----- the other data i can get from the ros
 
+
+
+
+![rosgraph](https://github.com/naorwaiss/Ai_gps_ros2/assets/122612935/e14772c8-be97-4423-8a6e-24a1ab175115)
 
 
 
