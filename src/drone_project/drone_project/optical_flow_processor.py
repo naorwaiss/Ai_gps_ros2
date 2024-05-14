@@ -58,8 +58,7 @@ class OpticalFlowProcessor(Node):
                         # Publishing the smoothed flow data
                         flow_msg = Float32MultiArray()
                         flow_msg.data = [x_movement, y_movement]
-                        self.publisher_.publish(flow_msg)
-                        self.get_logger().info(f'Publishing Optical Flow: x={x_movement}, y={y_movement}')
+                        #self.get_logger().info(f'Publishing Optical Flow: x={x_movement}, y={y_movement}')
 
         self.prev_frame = gray_blur
 

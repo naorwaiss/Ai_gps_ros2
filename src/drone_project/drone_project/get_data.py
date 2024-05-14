@@ -68,6 +68,13 @@ class Listener(Node):
             qos_profile
         )
 
+        # Subscription to '/optical_flow_data'
+        self.subscription = self.create_subscription(
+            Float32MultiArray,
+            '/optical_flow_data',
+            self.rpm_callback,  # Assuming you have a callback function named rpm_callback
+            qos_profile
+        )
 
         self.hdop = None
         self.x = None
@@ -76,6 +83,8 @@ class Listener(Node):
         self.roll = None
         self.pitch = None
         self.yaw = None
+        self.x_camera = None
+        self.y_camera = None
 
     def pose_callback(self, msg):
         if len(msg.data) == 6:
@@ -104,6 +113,13 @@ class Listener(Node):
         else:
             self.get_logger().warn("Invalid data received on /rpm_data topic. Expected data for four motors.")
 
+    def optic_flow_collback(self, msg):
+        # Assuming the message contains data for four motors
+        if len(msg.data) == 2:
+            self.x_camera, self.y_camera = msg.data
+        else:
+            self.get_logger().warn("Invalid data received on //optical_flow_data.")
+
 
 class Data_csv:
     def __init__(self, listener):
@@ -125,7 +141,7 @@ class Data_csv:
         """
         Flush the buffer to CSV file
         """
-        directory = "/home/naor/ros2_ws/src/drone_project/drone_project/log_flight"  # need to change it at my computer
+        directory = "/home/drone/ros2_ws/src/drone_project/drone_project/log_flight"  # need to change it at my computer
         if not os.path.exists(directory):
             os.makedirs(directory)
 
@@ -149,10 +165,9 @@ class Data_csv:
         self.start_scv_file()
 
 
-
-
         while self._running:
             print(f"x: {self.listener.x}, y: {self.listener.y}, z: {self.listener.z}")
+            print(f"m1 : {self.listener.m1}, m2: {self.listener.m2}, m3: {self.listener.m3 },m4: {self.listener.m4}")
 
 
 
