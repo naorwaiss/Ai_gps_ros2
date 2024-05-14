@@ -3,33 +3,39 @@ this project come to gave solution to the GPS with AI
 
 
 
-at this project i use asus tinker board with dorne 
+at this project i use pi 4B with ubuntu flash - 22.04 -> for ros iron use with dorne 
 at the drone i use ardupilot - for the telemetry esc 
 --------------------------------------------------------------------------------
+need to add here the artical that i read
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 missions that not do - big
-2)connect compass 
 3) learn pytorch - control it 
-4) start make the image code with the euiler or quarterion angel 
-5) learn how to get the ESC data to pymavlink or mavsdk at real time
 6) make code that shave all the data to csv file 
 7) make the nn
 
 
 
 
-
-
-the data i need to take from the drone - need to order it to with gps and not with gps - for the learn
-
-
-
 #need to fill this line here 
 data need to take from the drone:
-telem from the engine - voltage/rpm/temp
 voltage of the drone 
 compass heading 
 heading from the GPS - GLOBAL_POSITION_INT (pymavlink)
-Gps - location GLOBAL_POSITION_INT /GPS_GLOBAL_ORIGIN /GLOBAL_POSITION_INT_COV-after some fileter(mabey batter)//LOCAL_POSITION_NED_COV(have here v and x at local ned)
 imu - SCALED_IMU //RAW_IMU
 ATTITUDE // ALTITUDE ( #141 )
 
@@ -108,16 +114,22 @@ need all the sensor gave the data at the smae time - so if the time not work tog
 Up to 25 Hz (single GNSS),
 Up to 10 Hz (4 concurrent GNSS)
   for gep-m10:
-Up to 10 Hz 
+Up to 10 Hz
+* the ardupilot set to publish this data at 50 hz -> need to check it 
 
 3) imu - euiler andle 
 4) compass
   -IST8310 Compass - 200Hz - i ask only for 10hz....
+
+   
     
-6) camera fps 
-7) camera output (for model 1)
-8) baro altitude
-9) motor telem
+6) camera fps
+   need to check -> make some node maby ??
+   
+9) baro altitude
+10) motor telem
+    the ardupilot pucligh it to 10 mhz -> need to check the actual speed 
+
 
 
 
@@ -128,9 +140,8 @@ at the first step lets do openc cv simple code with tracing algoritem
 
 https://www.youtube.com/watch?app=desktop&v=GgGro5IV-cs  - explanation about the code i need 
 
-i need to make the run time of the camera little slower becuse the tinker board is little lazy
-
-
+i use         # Enhancing the Lucas-Kanade parameters
+need to check it and determen if had onother optical flow camera for ros2
 ----------------------------------------------------------------------------------------------
 main mavros node 
 
@@ -141,7 +152,7 @@ i can call to the ros2 topic list and take the topic of the esc - maby its batte
 
 important ros2 command:
 
-ssh -X drone@   -- 
+ssh -X drone@   -- publish the rqt to the main computer
 ros2 launch drone_project drone_launch.py
 ros2 launch drone_project optical_flow_processor.launch.py 
 ros2 run v4l2_camera v4l2_camera_node --- run v4l node for the camera 
@@ -156,5 +167,14 @@ ros2 run rqt_image_view rqt_image_view --- important command to see the vedio fr
 
 
 
+problem:
+1) the hdop is super high 
+2) run process on boot - need the help of someone
 
+3) at the dron part -
+    make the leg more stronger
+     add the fpv cam
+     move to elers
+     change to little camera and not to the night one - or mabt the night one is more impresive??? -> need to check it 
+     
 
