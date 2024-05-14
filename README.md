@@ -151,8 +151,8 @@ ros2 run rqt_image_view rqt_image_view --- important command to see the vedio fr
 14.5 - this is the build for right now - witout the camera 
 
 
+![rosgraph](https://github.com/naorwaiss/Ai_gps_ros2/assets/122612935/5e39db3d-c7cd-40ed-8e74-d49728d9db71)
 
-![rosgraph](https://github.com/naorwaiss/Ai_gps_ros2/assets/122612935/e14772c8-be97-4423-8a6e-24a1ab175115)
 
 
 
