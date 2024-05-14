@@ -139,12 +139,20 @@ ros2 run mavros mavros_node --ros-args -p fcu_url:=/dev/ttyAMA0 -p gcs_url:=udp:
 i can call to the ros2 topic list and take the topic of the esc - maby its batter....
 
 
+important ros2 command:
 
-i do little change here to use ros
-1) to lunch the optical flow - use this command:  ros2 launch camera_flow_pkg drone_Ai_launch.py
+ssh -X drone@   -- 
+ros2 launch drone_project drone_launch.py
+ros2 launch drone_project optical_flow_processor.launch.py 
+ros2 run v4l2_camera v4l2_camera_node --- run v4l node for the camera 
+ros2 run rqt_image_view rqt_image_view --- important command to see the vedio from the camera 
 
-2) need now to make again the code for the esc telemtry - need to make somthing for myself ----- the other data i can get from the ros
 
+14.5 - this is the build for right now - witout the camera 
+
+
+
+![rosgraph](https://github.com/naorwaiss/Ai_gps_ros2/assets/122612935/e14772c8-be97-4423-8a6e-24a1ab175115)
 
 
 
