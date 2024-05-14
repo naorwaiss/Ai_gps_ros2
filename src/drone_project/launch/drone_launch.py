@@ -5,9 +5,7 @@ from launch.substitutions import LaunchConfiguration
 def generate_launch_description():
     # Declare configuration arguments
     fcu_url = DeclareLaunchArgument(
-        'fcu_url', default_value='udp://127.0.0.1:14540@14557',
-        #        'fcu_url', default_value='serial:///dev/ttyAMA0',
-
+        'fcu_url', default_value='serial:///dev/ttyAMA0',
         description='FCU URL for MAVROS'
     )
     gcs_url = DeclareLaunchArgument(
@@ -19,7 +17,7 @@ def generate_launch_description():
     mavros_process = ExecuteProcess(
         cmd=[
             'ros2', 'run', 'mavros', 'mavros_node', '--ros-args',
-            '-p', 'fcu_url:=udp://127.0.0.1:14540@14557',
+            '-p', 'fcu_url:=serial:///dev/ttyAMA0',
             '-p', 'gcs_url:=udp://@127.0.0.1'
         ],
         output='screen'

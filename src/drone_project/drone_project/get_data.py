@@ -98,10 +98,9 @@ class Listener(Node):
 
     def rpm_callback(self, msg):
         # Assuming the message contains data for four motors
-
-        #i dont think that going to work
         if len(msg.data) == 4:
             self.m1, self.m2, self.m3, self.m4 = msg.data
+            # Now m1, m2, m3, and m4 contain the values from the rpm_data message
         else:
             self.get_logger().warn("Invalid data received on /rpm_data topic. Expected data for four motors.")
 
