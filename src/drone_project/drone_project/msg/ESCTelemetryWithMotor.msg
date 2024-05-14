@@ -1,0 +1,9 @@
+# ESCTelemetryWithMotor.msg
+Header header
+float32 temperature
+float32 voltage
+float32 current
+float32 totalcurrent
+float32 rpm
+uint8 count
+uint8 motor_number
