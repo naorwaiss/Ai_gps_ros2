@@ -139,9 +139,16 @@ ros2 run mavros mavros_node --ros-args -p fcu_url:=/dev/ttyAMA0 -p gcs_url:=udp:
 i can call to the ros2 topic list and take the topic of the esc - maby its batter....
 
 
+important ros2 command:
+
+ssh -X drone@   -- 
+ros2 launch drone_project drone_launch.py
+ros2 launch drone_project optical_flow_processor.launch.py 
+ros2 run v4l2_camera v4l2_camera_node --- run v4l node for the camera 
+ros2 run rqt_image_view rqt_image_view --- important command to see the vedio from the camera 
 
 
-
+14.5 - this is the build for right now - witout the camera 
 
 
 
