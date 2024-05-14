@@ -106,7 +106,7 @@ sudo mavproxy.py --master=/dev/ttyS0
 3) model_3 - two layer of ai o ne for the camera and one for the motor 
 ---------------------------------------------------------------------------------
 
-# run time -
+# run the run time of all sensor 
 need all the sensor gave the data at the smae time - so if the time not work together need to do some interpulation 
   
 1) GPS - all dim ---
@@ -177,4 +177,8 @@ problem:
      move to elers
      change to little camera and not to the night one - or mabt the night one is more impresive??? -> need to check it 
      
-
+4) ,ake first version for the scv
+5) make some matlab file to vislualize the data from the x,y,z data - > this be easy and fun 
+6) finish the partog get the data
+7) start the part of the tourch -> need to take advise from talhaim
+8) find way to save all the data at proper way 
