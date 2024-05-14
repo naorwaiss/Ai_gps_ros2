@@ -1,0 +1,5 @@
+setuptools
+numpy
+opencv-python
+cv-bridge
+rclpy
