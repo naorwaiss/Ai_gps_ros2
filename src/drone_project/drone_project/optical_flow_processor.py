@@ -15,7 +15,7 @@ class OpticalFlowProcessor(Node):
             self.listener_callback,
             10
         )
-        self.publisher_ = self.create_publisher(Float32MultiArray, 'optical_flow_processor', 10)  # Topic name changed
+        self.publisher_ = self.create_publisher(Float32MultiArray, 'optical_flow_data', 10)
         self.br = CvBridge()
         self.prev_frame = None
 
