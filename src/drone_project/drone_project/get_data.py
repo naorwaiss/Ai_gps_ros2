@@ -2,17 +2,22 @@ import threading
 import time
 import csv
 import os
+from collections import deque
 
 #ros2 import
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Float64
+
 
 from sensor_msgs.msg import MagneticField
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy
 from sensor_msgs.msg import NavSatFix
 from mavros_msgs.msg import GPSRAW
 from sensor_msgs.msg import Imu
+from geometry_msgs.msg import TwistStamped
+
 
 
 
@@ -30,7 +35,9 @@ class Listener(Node):
             '/optical_flow_data': False,
             '/converted_pose': False,
             '/mavros/gpsstatus/gps1/raw': False,
-            '/mavros/imu_data': False
+            '/mavros/imu_data': False,
+            '/mavros/global_position/compass_hdg':False
+
         }
 
 
@@ -52,7 +59,7 @@ class Listener(Node):
         self.subscription = self.create_subscription(
             Float32MultiArray,
             '/voltage_data',
-            self.Voltege_motor_callback,  # Assuming you have a callback function named rpm_callback
+            self.Voltege_motor_callback,
             qos_profile
         )
 
@@ -61,7 +68,7 @@ class Listener(Node):
         self.subscription = self.create_subscription(
             Float32MultiArray,
             '/temperature_data',
-            self.tmp_callback,  # Assuming you have a callback function named rpm_callback
+            self.tmp_callback,
             qos_profile
         )
 
@@ -69,7 +76,7 @@ class Listener(Node):
         self.subscription = self.create_subscription(
             Float32MultiArray,
             '/optical_flow_data',
-            self.optic_flow_collback,  # Assuming you have a callback function name doptic_flow_collback
+            self.optic_flow_collback,
             qos_profile
         )
 
@@ -100,7 +107,21 @@ class Listener(Node):
         )
 
 
+        # Subscription to '/mavros/global_position/compass_hdg' for GPS data
+        self.subscription = self.create_subscription(
+            GPSRAW,
+            '/mavros/global_position/compass_hdg',
+            self.compass_callback,
+            qos_profile
+        )
 
+        # Subscription to '/mavros/local_position/velocity_body'
+        self.velocity_subscription = self.create_subscription(
+            TwistStamped,  # Assuming TwistStamped is the appropriate message type
+            '/mavros/local_position/velocity_body',  # Correct topic name
+            self.velocity_body_callback,  # Callback function for velocity body data
+            qos_profile
+        )
 
 
 ########################################init###################################################3
@@ -122,6 +143,21 @@ class Listener(Node):
         self.angular_velocity_x = None
         self.angular_velocity_y = None
         self.angular_velocity_z = None
+        self.compass = None
+        self.drone_stat = None
+        self.mode = None
+        self.m1 = None
+        self.m2 = None
+        self.m3 = None
+        self.m4 = None
+        self.temp_m1 =None
+        self.temp_m2 =None
+        self.temp_m3 =None
+        self.temp_m4 = None
+        self.volt_m1 = None
+        self.volt_m2 = None
+        self.volt_m3 =None
+        self.volt_m4 =None
 
 
 ###############################----function -------------------#############################
@@ -190,7 +226,7 @@ class Listener(Node):
         else:
             self.get_logger().warn("Invalid data received on //optical_flow_data.")
 
-    def IMU_callback(self, msg):
+    def imu_data_coallback(self, msg):
         # Check if the angular_velocity field exists in the message
         if msg.angular_velocity:
             # Accessing angular velocity x, y, and z values
@@ -210,6 +246,29 @@ class Listener(Node):
         else:
             # Handle the case where linear_acceleration field is missing
             self.get_logger().warn("Linear acceleration data is missing in the IMU message.")
+
+    def compass_callback(self, msg):
+        self.compass = msg.data
+        self.topic_reception_status['/mavros/global_position/compass_hdg'] = True
+
+
+    def velocity_body_callback(self, msg):
+        # Assuming the message contains data for velocity in x, y, and z directions
+        if msg is not None:  # Check if message is not None
+            # Assuming you want to handle velocity data here
+            # Example: storing velocity values in some variables
+            x_velocity = msg.twist.linear.x
+            y_velocity = msg.twist.linear.y
+            z_velocity = msg.twist.linear.z
+            # Do something with the velocity data, such as storing it or performing calculations
+            # Example: Store velocity data in some variables or objects
+            self.x_velocity = x_velocity
+            self.y_velocity = y_velocity
+            self.z_velocity = z_velocity
+            # Update topic reception status
+            self.topic_reception_status['/mavros/local_position/velocity_body'] = True
+        else:
+            self.get_logger().warn("Invalid data received on /mavros/local_position/velocity_body.")
 
 
 
@@ -231,32 +290,50 @@ class Data_csv:
         self._running = False
         self.thread.join()
 
-    def start_scv_file(self):
+    def start_csv_file(self):
         """
-        Flush the buffer to CSV file
+        Create the CSV file and write the header.
         """
-        directory = "/home/naor/Ai_gps_ros2/src/drone_project/drone_project/log_flight"  # need to change it at my computer
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+        self.directory = "/home/drone/Ai_gps_ros2/src/drone_project/drone_project/log_flight"  # Update to your actual directory
+        if not os.path.exists(self.directory):
+            os.makedirs(self.directory)
 
-        filename = os.path.join(directory, "flight_data.csv")
+        self.filename = os.path.join(self.directory, "flight_data.csv")
 
-        with open(filename, mode='a', newline='') as file:
+        with open(self.filename, mode='w', newline='') as file:
             csv_writer = csv.writer(file)
-            # Write the header if the file is empty
+            # Write the header - need to change the ordering
             csv_writer.writerow([
-                "x_gps", "y_gps", "z_gps"])  # Write the header
+                "m1_rpm", "m2_rpm", "m3_rpm", "m4_rpm",
+                "temp_m1", "temp_m2", "temp_m3", "temp_m4",
+                "volt_m1", "volt_m2", "volt_m3", "volt_m4",
+                "x_camera", "y_camera",
+                "linear_acceleration_x", "linear_acceleration_y", "linear_acceleration_z",   #imu
+                "angular_velocity_x", "angular_velocity_y", "angular_velocity_z",  #imu
+                "compass",
+                "roll", "pitch", "yaw",
+                "x_gps", "y_gps", "z_gps"
+            ])
+
+    def flush_buffer_to_csv(self):
+        """
+        Flush the buffer to CSV file.
+        """
+        with open(self.filename, mode='a', newline='') as file:
+            csv_writer = csv.writer(file)
+            for data in self.buffer:
+                csv_writer.writerow(data)
+        self.buffer.clear()
 
     def check_msg_arrive(self):
         while True:
-            missing_topics = [topic for topic, received in self.topic_reception_status.items() if not received]
+            missing_topics = [topic for topic, received in self.listener.topic_reception_status.items() if not received]
             if not missing_topics:
                 print("All messages are received.")
                 break
             else:
                 print("Messages not received for topics:", missing_topics)
-                # You can add further actions here if needed
-            time.sleep(1)  # Add a short delay to avoid tight looping and excessive CPU usage
+            time.sleep(1)
 
     def hdop_status(self):
         #ok this function work - check the status of the hdop before start the flight
@@ -275,17 +352,35 @@ class Data_csv:
        # self.check_msg_arrive()  # check the msg that all arive- not work at the sitl..
 
         self.hdop_status() #check th hdop status
-
-        self.start_scv_file() #open the csv file
+        #need to check here the status of the drone also
+        self.start_csv_file() #open the csv file
 
 
 
         while self._running:
             for i in range(self.buffer_size):
+                data = [
+                    self.listener.m1, self.listener.m2, self.listener.m3, self.listener.m4,
+                    self.listener.temp_m1, self.listener.temp_m2, self.listener.temp_m3, self.listener.temp_m4,
+                    self.listener.volt_m1, self.listener.volt_m2, self.listener.volt_m3, self.listener.volt_m4,
+                    self.listener.x_camera, self.listener.y_camera,
+                    self.listener.linear_acceleration_x, self.listener.linear_acceleration_y,
+                    self.listener.linear_acceleration_z,
+                    self.listener.angular_velocity_x, self.listener.angular_velocity_y,
+                    self.listener.angular_velocity_z,
+                    self.listener.compass,
+                    self.listener.roll, self.listener.pitch, self.listener.yaw,
+                    self.listener.x, self.listener.y, self.listener.z
+                ]
+                self.buffer.append(data)
 
-                #print(f"x: {self.listener.x}, y: {self.listener.y}, z: {self.listener.z}")
-                #print(f"m1 : {self.listener.m1}, m2: {self.listener.m2}, m3: {self.listener.m3 },m4: {self.listener.m4}")
-                print(f"we ar at iteration {i}, the loop take  seconds.")
+
+
+                print(f"we ar at iteration {i}")
+
+            self.flush_buffer_to_csv()  #after get bufer size data upload the data to the csv
+            print("Buffer flushed to CSV.")
+
 
 
 

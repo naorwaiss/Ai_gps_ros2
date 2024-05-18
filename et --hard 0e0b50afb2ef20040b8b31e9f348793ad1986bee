@@ -1,0 +1,108 @@
+[33mcommit 7e93c19cd36ff57f0d38dd777ac957d805a61016[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: naor <naor-w@apeiro-motion.com>
+Date:   Sat May 18 18:28:10 2024 +0300
+
+    naor V6 - almost finish the csv file - need to check if its the propreate format
+
+[33mcommit 0e0b50afb2ef20040b8b31e9f348793ad1986bee[m
+Author: naor <naor-w@apeiro-motion.com>
+Date:   Sat May 18 18:26:32 2024 +0300
+
+    naor V6 - almost finish the csv file - need to check if its the propreate format
+
+[33mcommit e20ea67712ce5088d169bdad94057bd1a8bd0369[m
+Author: naor <naor-w@apeiro-motion.com>
+Date:   Fri May 17 11:24:13 2024 +0300
+
+    naor V5
+
+[33mcommit 82770a990e1ab5aeee5ab07d2d6c92596ea92f03[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: naor <naor-w@apeiro-motion.com>
+Date:   Wed May 15 23:10:20 2024 +0300
+
+    naor V6- need to make alot of code
+
+[33mcommit 5db8dadd38186b0e149943bb07054ba3c0bb32be[m
+Author: naorwaiss <122612935+naorwaiss@users.noreply.github.com>
+Date:   Tue May 14 22:50:28 2024 +0300
+
+    Update README.md
+
+[33mcommit db90686efd95913aed6f2d8ca5635683c2ebb7f9[m
+Author: naorwaiss <122612935+naorwaiss@users.noreply.github.com>
+Date:   Tue May 14 22:46:40 2024 +0300
+
+    Update README.md
+
+[33mcommit b57a7bdb3669988bc2d800ab5c8af7f459dfbdcc[m
+Author: naorwaiss <122612935+naorwaiss@users.noreply.github.com>
+Date:   Tue May 14 22:33:46 2024 +0300
+
+    Update README.md
+
+[33mcommit 6eca658dd1c8b54761bbaf0fc30d2793a3692717[m
+Author: naor <naor-w@apeiro-motion.com>
+Date:   Tue May 14 22:32:06 2024 +0300
+
+    naor V4
+
+[33mcommit bdc6d8df958a84a4117523650d99a02f68b00a3a[m
+Author: naor <naor-w@apeiro-motion.com>
+Date:   Tue May 14 22:10:52 2024 +0300
+
+    naorV3
+
+[33mcommit c7ab816f212e5fd25c23751e14350a596d4db1b5[m
+Author: naor <naor-w@apeiro-motion.com>
+Date:   Tue May 14 21:49:35 2024 +0300
+
+    naorV2
+
+[33mcommit ce332b48b47bb37265b5aa46a7f0687216169549[m
+Merge: 96527ba fa9b319
+Author: naor <naor-w@apeiro-motion.com>
+Date:   Tue May 14 21:34:35 2024 +0300
+
+    Merge remote-tracking branch 'origin/main'
+
+[33mcommit 96527ba85a4d54b6e6e2cd829061a3d8de1021b5[m
+Author: naor <naor-w@apeiro-motion.com>
+Date:   Tue May 14 21:33:42 2024 +0300
+
+    naor change
+
+[33mcommit fa9b3197f0a9fa5fde531d84d9870e09932c48fd[m
+Author: naorwaiss <122612935+naorwaiss@users.noreply.github.com>
+Date:   Tue May 14 17:05:53 2024 +0300
+
+    Update README.md
+
+[33mcommit a6db202b2dc20fbb28e9d7681a3aa3aa329dbab5[m
+Author: naorwaiss <122612935+naorwaiss@users.noreply.github.com>
+Date:   Tue May 14 17:02:18 2024 +0300
+
+    Update README.md
+
+[33mcommit e2be4851e70a8387f3b91695b35456a7b142ab95[m
+Author: naor <naor-w@apeiro-motion.com>
+Date:   Tue May 14 16:56:46 2024 +0300
+
+    naor
+
+[33mcommit 975c24dcdcc1c445d430502fd2c1954974d75e36[m
+Author: naorwaiss <122612935+naorwaiss@users.noreply.github.com>
+Date:   Tue May 14 16:49:55 2024 +0300
+
+    Update README.md
+
+[33mcommit 4cdcedfc9442f434effe9482e810123edcefa8d4[m
+Author: naorwaiss <122612935+naorwaiss@users.noreply.github.com>
+Date:   Tue May 14 16:49:11 2024 +0300
+
+    Add files via upload
+
+[33mcommit 8c0f12ab1ddc8ca5ae636e889498f0d1d809e9c1[m
+Author: naorwaiss <122612935+naorwaiss@users.noreply.github.com>
+Date:   Tue May 14 16:47:40 2024 +0300
+
+    Initial commit
