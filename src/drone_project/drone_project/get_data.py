@@ -17,6 +17,8 @@ from sensor_msgs.msg import NavSatFix
 from mavros_msgs.msg import GPSRAW
 from sensor_msgs.msg import Imu
 from geometry_msgs.msg import TwistStamped
+from sensor_msgs.msg import Altitude
+
 
 
 
@@ -36,7 +38,8 @@ class Listener(Node):
             '/converted_pose': False,
             '/mavros/gpsstatus/gps1/raw': False,
             '/mavros/imu_data': False,
-            '/mavros/global_position/compass_hdg':False
+            '/mavros/global_position/compass_hdg':False,
+            '/mavros/altitude':False
 
         }
 
@@ -87,6 +90,15 @@ class Listener(Node):
             self.imu_data_coallback,  # Assuming you have a callback function named imu_data_coallback
             qos_profile
         )
+
+        # Subscription to '/mavros/altitude' for altitude data
+        self.subscription = self.create_subscription(
+            Altitude,
+            '/mavros/altitude',
+            self.altitude_callback,
+            qos_profile
+        )
+
 
         ###################################with GPS part##########################
 
@@ -158,6 +170,7 @@ class Listener(Node):
         self.volt_m2 = None
         self.volt_m3 =None
         self.volt_m4 =None
+        self.non_gps_altitude = None
 
 
 ###############################----function -------------------#############################
@@ -270,7 +283,12 @@ class Listener(Node):
         else:
             self.get_logger().warn("Invalid data received on /mavros/local_position/velocity_body.")
 
-
+    def altitude_callback(self, msg):
+        if msg is not None:  # Check if message is not None
+            self.non_gps_altitude = msg.altitude  # Access the appropriate field
+            self.topic_reception_status['/mavros/altitude'] = True
+        else:
+            self.get_logger().warn("Invalid data received on /mavros/altitude.")
 
 
 
@@ -294,7 +312,7 @@ class Data_csv:
         """
         Create the CSV file and write the header.
         """
-        self.directory = "/home/drone/Ai_gps_ros2/src/drone_project/drone_project/log_flight"  # Update to your actual directory
+        self.directory = "/home/naor/Ai_gps_ros2/src/drone_project/drone_project/log_flight"  # Update to your actual directory
         if not os.path.exists(self.directory):
             os.makedirs(self.directory)
 
@@ -308,6 +326,7 @@ class Data_csv:
                 "temp_m1", "temp_m2", "temp_m3", "temp_m4",
                 "volt_m1", "volt_m2", "volt_m3", "volt_m4",
                 "x_camera", "y_camera",
+                "Altitude",
                 "linear_acceleration_x", "linear_acceleration_y", "linear_acceleration_z",   #imu
                 "angular_velocity_x", "angular_velocity_y", "angular_velocity_z",  #imu
                 "compass",
@@ -364,6 +383,7 @@ class Data_csv:
                     self.listener.temp_m1, self.listener.temp_m2, self.listener.temp_m3, self.listener.temp_m4,
                     self.listener.volt_m1, self.listener.volt_m2, self.listener.volt_m3, self.listener.volt_m4,
                     self.listener.x_camera, self.listener.y_camera,
+                    self.listener.non_gps_altitude,
                     self.listener.linear_acceleration_x, self.listener.linear_acceleration_y,
                     self.listener.linear_acceleration_z,
                     self.listener.angular_velocity_x, self.listener.angular_velocity_y,
@@ -372,6 +392,7 @@ class Data_csv:
                     self.listener.roll, self.listener.pitch, self.listener.yaw,
                     self.listener.x, self.listener.y, self.listener.z
                 ]
+                time.sleep(0.5)   # need to remove it at real drone
                 self.buffer.append(data)
 
 
