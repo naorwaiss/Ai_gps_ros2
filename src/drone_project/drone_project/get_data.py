@@ -17,7 +17,7 @@ from sensor_msgs.msg import NavSatFix
 from mavros_msgs.msg import GPSRAW
 from sensor_msgs.msg import Imu
 from geometry_msgs.msg import TwistStamped
-from sensor_msgs.msg import Altitude
+from mavros_msgs.msg import Altitude  # Correct import for Altitude message
 
 
 
@@ -92,13 +92,12 @@ class Listener(Node):
         )
 
         # Subscription to '/mavros/altitude' for altitude data
-        self.subscription = self.create_subscription(
+        self.create_subscription(
             Altitude,
             '/mavros/altitude',
             self.altitude_callback,
             qos_profile
         )
-
 
         ###################################with GPS part##########################
 
@@ -139,9 +138,9 @@ class Listener(Node):
 ########################################init###################################################3
 
         self.hdop = None
-        self.x = None
-        self.y = None
-        self.z = None
+        self.x_gps = None
+        self.y_gps = None
+        self.z_gps = None
         self.roll = None
         self.pitch = None
         self.yaw = None
@@ -181,14 +180,14 @@ class Listener(Node):
         if len(msg.data) == 6:
             #self.time = float(msg.header.stamp.sec) + float(msg.header.stamp.nanosec) / 1e9
 
-            x, z, y, roll, pitch, yaw = msg.data
-            self.x = x
-            self.y = y
-            self.z = z
+            x, y, z, roll, pitch, yaw = msg.data
+            self.x_gps = x
+            self.y_gps = y
+            self.z_gps = z
             self.roll = roll
             self.pitch = pitch
             self.yaw = yaw
-            #print(f"x: {self.x}, y: {self.y}, z: {self.z}, roll: {self.roll}, pitch: {self.pitch}, yaw: {self.yaw}")
+            #print(f"x: {self.x_gps}, y: {self.y_gps}, z: {self.z_gps}, roll: {self.roll}, pitch: {self.pitch}, yaw: {self.yaw}")
             self.topic_reception_status['/converted_pose'] = True
 
         else:
@@ -284,12 +283,11 @@ class Listener(Node):
             self.get_logger().warn("Invalid data received on /mavros/local_position/velocity_body.")
 
     def altitude_callback(self, msg):
-        if msg is not None:  # Check if message is not None
-            self.non_gps_altitude = msg.altitude  # Access the appropriate field
+        if msg is not None:
+            self.non_gps_altitude = msg.local  # Accessing the 'amsl' field
             self.topic_reception_status['/mavros/altitude'] = True
         else:
             self.get_logger().warn("Invalid data received on /mavros/altitude.")
-
 
 
 class Data_csv:
@@ -390,9 +388,10 @@ class Data_csv:
                     self.listener.angular_velocity_z,
                     self.listener.compass,
                     self.listener.roll, self.listener.pitch, self.listener.yaw,
-                    self.listener.x, self.listener.y, self.listener.z
+                    self.listener.x_gps, self.listener.y_gps, self.listener.z_gps
                 ]
-                time.sleep(0.5)   # need to remove it at real drone
+                hz = 50
+                time.sleep(1/hz)   #time stop...
                 self.buffer.append(data)
 
 
