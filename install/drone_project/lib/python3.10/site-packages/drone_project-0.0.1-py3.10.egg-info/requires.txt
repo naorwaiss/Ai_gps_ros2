@@ -1,5 +1,5 @@
-setuptools
+cv-bridge
 numpy
 opencv-python
-cv-bridge
 rclpy
+setuptools

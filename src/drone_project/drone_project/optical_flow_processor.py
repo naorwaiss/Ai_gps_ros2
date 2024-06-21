@@ -55,9 +55,13 @@ class OpticalFlowProcessor(Node):
                         self.prev_x = x_movement
                         self.prev_y = y_movement
 
+                        y_movement_new = x_movement
+
+                        x_movement_new = y_movement*-1
+
                         # Publishing the smoothed flow data
                         flow_msg = Float32MultiArray()
-                        flow_msg.data = [x_movement, y_movement]
+                        flow_msg.data = [x_movement_new, y_movement_new]
                         self.publisher_.publish(flow_msg)
 
                         # Uncomment below line if you want to print when running the node
