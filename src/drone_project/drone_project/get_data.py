@@ -7,17 +7,18 @@ from collections import deque
 # ROS2 import
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy
 from std_msgs.msg import Float32MultiArray, Float64
 from sensor_msgs.msg import MagneticField, NavSatFix, Imu
 from geometry_msgs.msg import TwistStamped
-from mavros_msgs.msg import GPSRAW, Altitude
+from mavros_msgs.msg import GPSRAW, Altitude, RCIn
 
 class Listener(Node):
     def __init__(self):
         super().__init__('get_data')
         qos_profile = QoSProfile(depth=10, reliability=QoSReliabilityPolicy.BEST_EFFORT)
 
-##############################################status##########################################
+        ##############################################status##########################################
         self.topic_reception_status = {
             '/rpm_data': False,
             '/voltage_data': False,
@@ -27,29 +28,30 @@ class Listener(Node):
             '/mavros/gpsstatus/gps1/raw': False,
             '/mavros/imu/data': False,
             '/mavros/global_position/compass_hdg': False,
-            '/mavros/altitude': False
+            '/mavros/altitude': False,
+            '/mavros/rc/in': False
         }
 
-#######################################call for no gps function #############################################
+        #######################################call for no gps function #############################################
 
         # Subscription to '/rpm_data'
-        self.subscription = self.create_subscription(
+        self.create_subscription(
             Float32MultiArray,
             '/rpm_data',
-            self.rpm_callback,  # Assuming you have a callback function named rpm_callback
+            self.rpm_callback,
             qos_profile
         )
 
         # Subscription to '/voltage_data'
-        self.subscription = self.create_subscription(
+        self.create_subscription(
             Float32MultiArray,
             '/voltage_data',
-            self.Voltege_motor_callback,
+            self.voltage_motor_callback,
             qos_profile
         )
 
         # Subscription to '/temperature_data'
-        self.subscription = self.create_subscription(
+        self.create_subscription(
             Float32MultiArray,
             '/temperature_data',
             self.tmp_callback,
@@ -57,18 +59,18 @@ class Listener(Node):
         )
 
         # Subscription to '/optical_flow_data'
-        self.subscription = self.create_subscription(
+        self.create_subscription(
             Float32MultiArray,
             '/optical_flow_data',
-            self.optic_flow_collback,
+            self.optic_flow_callback,
             qos_profile
         )
 
         # Subscription to '/mavros/imu/data'
-        self.subscription = self.create_subscription(
-            Imu,  # Change Float32MultiArray to Imu
-            '/mavros/imu/data',  # Correct topic name
-            self.imu_data_callback,  # Assuming you have a callback function named imu_data_callback
+        self.create_subscription(
+            Imu,
+            '/mavros/imu/data',
+            self.imu_data_callback,
             qos_profile
         )
 
@@ -82,8 +84,8 @@ class Listener(Node):
 
         ###################################with GPS part##########################
 
-        # Subscription to '/converter_pose' instead of '/mavros/local_position/pose'
-        self.pose_subscription = self.create_subscription(
+        # Subscription to '/converted_pose'
+        self.create_subscription(
             Float32MultiArray,
             '/converted_pose',
             self.pose_callback,
@@ -91,7 +93,7 @@ class Listener(Node):
         )
 
         # Subscription to '/mavros/gpsstatus/gps1/raw' for GPS data
-        self.subscription = self.create_subscription(
+        self.create_subscription(
             GPSRAW,
             '/mavros/gpsstatus/gps1/raw',
             self.gps_callback,
@@ -99,7 +101,7 @@ class Listener(Node):
         )
 
         # Subscription to '/mavros/global_position/compass_hdg' for compass heading data
-        self.subscription = self.create_subscription(
+        self.create_subscription(
             Float64,
             '/mavros/global_position/compass_hdg',
             self.compass_callback,
@@ -107,14 +109,22 @@ class Listener(Node):
         )
 
         # Subscription to '/mavros/local_position/velocity_body'
-        self.velocity_subscription = self.create_subscription(
-            TwistStamped,  # Assuming TwistStamped is the appropriate message type
-            '/mavros/local_position/velocity_body',  # Correct topic name
-            self.velocity_body_callback,  # Callback function for velocity body data
+        self.create_subscription(
+            TwistStamped,
+            '/mavros/local_position/velocity_body',
+            self.velocity_body_callback,
             qos_profile
         )
 
-########################################init###################################################3
+        # Subscription to '/mavros/rc/in' for RC input data
+        self.create_subscription(
+            RCIn,
+            '/mavros/rc/in',
+            self.rc_in_callback,
+            qos_profile
+        )
+
+        ########################################init###################################################
 
         self.hdop = None
         self.x_gps = None
@@ -149,8 +159,9 @@ class Listener(Node):
         self.volt_m3 = None
         self.volt_m4 = None
         self.non_gps_altitude = None
+        self.rc_channel_7_value = None  # Initialize this attribute
 
-###############################----function -------------------#############################
+        ###############################----function -------------------#############################
 
     def pose_callback(self, msg):
         if len(msg.data) == 6:
@@ -184,14 +195,14 @@ class Listener(Node):
         else:
             self.get_logger().warn("Invalid data received on /temperature_data topic. Expected data for four motors.")
 
-    def Voltege_motor_callback(self, msg):
+    def voltage_motor_callback(self, msg):
         if len(msg.data) == 4:
             self.volt_m1, self.volt_m2, self.volt_m3, self.volt_m4 = msg.data
             self.topic_reception_status['/voltage_data'] = True
         else:
             self.get_logger().warn("Invalid data received on /voltage_data topic. Expected data for four motors.")
 
-    def optic_flow_collback(self, msg):
+    def optic_flow_callback(self, msg):
         if len(msg.data) == 2:
             self.x_camera, self.y_camera = msg.data
             self.topic_reception_status['/optical_flow_data'] = True
@@ -234,6 +245,12 @@ class Listener(Node):
         else:
             self.get_logger().warn("Invalid data received on /mavros/altitude.")
 
+    def rc_in_callback(self, msg):
+        # Assuming channels are 0-indexed
+        if len(msg.channels) > 6:
+            self.rc_channel_7_value = msg.channels[6]
+            self.topic_reception_status['/mavros/rc/in'] = True
+
 class Data_csv:
     def __init__(self, listener):
         self.listener = listener
@@ -254,7 +271,7 @@ class Data_csv:
         """
         Create the CSV file and write the header.
         """
-        self.directory = "/home/naor/Ai_gps_ros2/src/drone_project/drone_project/log_flight"  # Update to your actual directory
+        self.directory = "/home/drone/Ai_gps_ros2/src/drone_project/drone_project/log_flight"  # Update to your actual directory
         if not os.path.exists(self.directory):
             os.makedirs(self.directory)
 
@@ -298,7 +315,7 @@ class Data_csv:
 
     def hdop_status(self):
         while True:
-            if self.listener.hdop is not None and self.listener.hdop <= 10:
+            if self.listener.hdop is not None and self.listener.hdop <= 100:
                 break
             if self.listener.hdop is not None:
                 print(f"HDOP: {self.listener.hdop}. Waiting for HDOP to be less than or equal to 10.")
@@ -308,34 +325,56 @@ class Data_csv:
 
         print("HDOP is less than or equal to 10. Starting data processing and printing.")
 
+    def rc_channel_7_status(self):
+        while True:
+            if self.listener.rc_channel_7_value is not None and self.listener.rc_channel_7_value > 1500:
+                print("RC channel 7 is greater than 1500. Starting data processing.")
+                break
+            else:
+                print("Waiting for RC channel 7 to be greater than 1500...")
+            time.sleep(1)
+
     def process_data(self):
         self.hdop_status()  # Check the HDOP status
         self.start_csv_file()  # Open the CSV file
 
-        while self._running:
-            for i in range(self.buffer_size):
-                data = [
-                    self.listener.m1, self.listener.m2, self.listener.m3, self.listener.m4,
-                    self.listener.temp_m1, self.listener.temp_m2, self.listener.temp_m3, self.listener.temp_m4,
-                    self.listener.volt_m1, self.listener.volt_m2, self.listener.volt_m3, self.listener.volt_m4,
-                    self.listener.x_camera, self.listener.y_camera,
-                    self.listener.non_gps_altitude,
-                    self.listener.linear_acceleration_x, self.listener.linear_acceleration_y,
-                    self.listener.linear_acceleration_z,
-                    self.listener.angular_velocity_x, self.listener.angular_velocity_y,
-                    self.listener.angular_velocity_z,
-                    self.listener.compass,
-                    self.listener.roll, self.listener.pitch, self.listener.yaw,
-                    self.listener.x_gps, self.listener.y_gps, self.listener.z_gps
-                ]
-                hz = 20
-                time.sleep(1 / hz)
-                self.buffer.append(data)
+        while True:  # Outer loop to keep checking RC channel 7
+            self.rc_channel_7_status()  # Wait until RC channel 7 is above 1500 to start
 
-                print(f"we are at iteration {i}")
+            self._running = True
+            while self._running:
+                for i in range(self.buffer_size):
+                    # Check if the RC channel 7 value drops below or equals 1500
+                    if self.listener.rc_channel_7_value is not None and self.listener.rc_channel_7_value <= 1500:
+                        print("RC channel 7 is less than or equal to 1500. Stopping data processing.")
+                        self._running = False
+                        break
 
-            self.flush_buffer_to_csv()  # After getting buffer size data, upload the data to the CSV
-            print("Buffer flushed to CSV.")
+                    data = [
+                        self.listener.m1, self.listener.m2, self.listener.m3, self.listener.m4,
+                        self.listener.temp_m1, self.listener.temp_m2, self.listener.temp_m3, self.listener.temp_m4,
+                        self.listener.volt_m1, self.listener.volt_m2, self.listener.volt_m3, self.listener.volt_m4,
+                        self.listener.x_camera, self.listener.y_camera,
+                        self.listener.non_gps_altitude,
+                        self.listener.linear_acceleration_x, self.listener.linear_acceleration_y,
+                        self.listener.linear_acceleration_z,
+                        self.listener.angular_velocity_x, self.listener.angular_velocity_y,
+                        self.listener.angular_velocity_z,
+                        self.listener.compass,
+                        self.listener.roll, self.listener.pitch, self.listener.yaw,
+                        self.listener.x_gps, self.listener.y_gps, self.listener.z_gps
+                    ]
+                    hz = 20
+                    time.sleep(1 / hz)
+                    self.buffer.append(data)
+
+                    print(f"We are at iteration {i}")
+
+                self.flush_buffer_to_csv()  # After getting buffer size data, upload the data to the CSV
+                print("Buffer flushed to CSV.")
+
+            print("Waiting for RC channel 7 to be greater than 1500 to restart data processing.")
+
 
 def main(args=None):
     rclpy.init(args=args)
