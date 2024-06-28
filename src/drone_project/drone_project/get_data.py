@@ -315,7 +315,8 @@ class Data_csv:
 
     def hdop_status(self):
         while True:
-            if self.listener.hdop is not None and self.listener.hdop <= 100:
+            if self.listener.hdop is not None and self.listener.hdop <= 3:
+                #need to check this value
                 break
             if self.listener.hdop is not None:
                 print(f"HDOP: {self.listener.hdop}. Waiting for HDOP to be less than or equal to 10.")
