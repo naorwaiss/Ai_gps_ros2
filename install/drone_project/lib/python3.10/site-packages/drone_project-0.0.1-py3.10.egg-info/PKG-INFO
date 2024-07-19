@@ -1,12 +1,12 @@
 Metadata-Version: 2.1
-Name: drone-project
+Name: drone_project
 Version: 0.0.1
 Summary: A package for processing optical flow and ESC telemetry in drones
-Home-page: UNKNOWN
 Maintainer: Your Name
 Maintainer-email: your.email@example.com
 License: Apache 2.0
-Platform: UNKNOWN
-
-UNKNOWN
-
+Requires-Dist: setuptools
+Requires-Dist: numpy
+Requires-Dist: opencv-python
+Requires-Dist: cv-bridge
+Requires-Dist: rclpy

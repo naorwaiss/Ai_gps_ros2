@@ -1,0 +1,35 @@
+running egg_info
+writing ../../build/drone_project/drone_project.egg-info/PKG-INFO
+writing dependency_links to ../../build/drone_project/drone_project.egg-info/dependency_links.txt
+writing entry points to ../../build/drone_project/drone_project.egg-info/entry_points.txt
+writing requirements to ../../build/drone_project/drone_project.egg-info/requires.txt
+writing top-level names to ../../build/drone_project/drone_project.egg-info/top_level.txt
+reading manifest file '../../build/drone_project/drone_project.egg-info/SOURCES.txt'
+writing manifest file '../../build/drone_project/drone_project.egg-info/SOURCES.txt'
+running build
+running build_py
+copying drone_project/optical_flow_processor.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project
+copying drone_project/get_data.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project
+copying drone_project/pose_converter.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project
+copying drone_project/fc_inharit_opticflow.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project
+running install
+running install_lib
+copying /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project/optical_flow_processor.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project
+copying /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project/get_data.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project
+copying /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project/fc_inharit_opticflow.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project
+byte-compiling /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project/optical_flow_processor.py to optical_flow_processor.cpython-310.pyc
+byte-compiling /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project/get_data.py to get_data.cpython-310.pyc
+byte-compiling /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project/fc_inharit_opticflow.py to fc_inharit_opticflow.cpython-310.pyc
+running install_data
+copying package.xml -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/share/drone_project
+copying launch/optical_flow_processor.launch.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/share/drone_project/launch
+copying launch/drone_launch.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/share/drone_project/launch
+copying resource/drone_project -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/share/ament_index/resource_index/packages
+running install_egg_info
+removing '/home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project-0.0.1-py3.10.egg-info' (and everything under it)
+Copying ../../build/drone_project/drone_project.egg-info to /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project-0.0.1-py3.10.egg-info
+running install_scripts
+Installing esc_data_processor script to /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/drone_project
+Installing optical_flow_processor script to /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/drone_project
+Installing pose_converter script to /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/drone_project
+writing list of installed files to '/home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/install.log'
