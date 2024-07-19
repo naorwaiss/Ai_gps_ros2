@@ -9,7 +9,7 @@ import rclpy
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy
 from std_msgs.msg import Float32MultiArray, Float64
-from sensor_msgs.msg import MagneticField, NavSatFix, Imu
+from sensor_msgs.msg import MagneticField, NavSatFix, Imu , BatteryState
 from geometry_msgs.msg import TwistStamped
 from mavros_msgs.msg import GPSRAW, Altitude, RCIn
 
@@ -79,6 +79,14 @@ class Listener(Node):
             Altitude,
             '/mavros/altitude',
             self.altitude_callback,
+            qos_profile
+        )
+
+        # Subscription to '/mavros/battery'
+        self.create_subscription(
+            BatteryState,
+            '/mavros/battery',
+            self.battery_callback,
             qos_profile
         )
 
@@ -160,6 +168,7 @@ class Listener(Node):
         self.volt_m4 = None
         self.non_gps_altitude = None
         self.rc_channel_7_value = None  # Initialize this attribute
+        self.cell_voltage = None
 
         ###############################----function -------------------#############################
 
@@ -208,6 +217,11 @@ class Listener(Node):
             self.topic_reception_status['/optical_flow_data'] = True
         else:
             self.get_logger().warn("Invalid data received on /optical_flow_data topic.")
+
+    def battery_callback(self, msg):
+        # Extract the cell voltage data
+        self.cell_voltage = msg.cell_voltage
+
 
     def imu_data_callback(self, msg):
         if msg.angular_velocity:
@@ -288,7 +302,7 @@ class Data_csv:
                 "Altitude",
                 "linear_acceleration_x", "linear_acceleration_y", "linear_acceleration_z",  # imu
                 "angular_velocity_x", "angular_velocity_y", "angular_velocity_z",  # imu
-                "compass",
+                "compass", "battery_voltage",
                 "roll", "pitch", "yaw",
                 "x_gps", "y_gps", "z_gps"
             ])
@@ -361,7 +375,7 @@ class Data_csv:
                         self.listener.linear_acceleration_z,
                         self.listener.angular_velocity_x, self.listener.angular_velocity_y,
                         self.listener.angular_velocity_z,
-                        self.listener.compass,
+                        self.listener.compass, self.listener.battery_voltage,
                         self.listener.roll, self.listener.pitch, self.listener.yaw,
                         self.listener.x_gps, self.listener.y_gps, self.listener.z_gps
                     ]
