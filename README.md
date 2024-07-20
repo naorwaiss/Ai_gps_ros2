@@ -25,17 +25,15 @@ need to add here the artical that i read
 
 missions that not do - big
 1) learn pytorch - control it 
-2) need to add the battery voltage of the drone to the data 
 3) need to check how to get the altitude from the baro - i dont get acsess from this 
-4) need to modifide the launch file to single file 
 5) get the hdop data to the fpv 
 6) add some menual pit mode with pwm convertrt 
-7)change the value for the analog vedio 
 8) make code that mech all the csv file  - can waith with this part 
 9)make the big code the to the AI part with pytorch 
-10)visulize the new location 
-9)
+10)visulize the new location - 
 
+
+**the main mission right now - learn pytorch 
 
 
 
@@ -179,17 +177,6 @@ ros2 run rqt_image_view rqt_image_view --- important command to see the vedio fr
 
 
 problem:
-1) the hdop is super high 
 2) run process on boot - need the help of someone
-
-3) at the dron part -
-    make the leg more stronger
-     add the fpv cam
-     move to elers
-     change to little camera and not to the night one - or mabt the night one is more impresive??? -> need to check it 
-     
-4) ,ake first version for the scv
-5) make some matlab file to vislualize the data from the x,y,z data - > this be easy and fun 
-6) finish the partog get the data
 7) start the part of the tourch -> need to take advise from talhaim
 8) find way to save all the data at proper way 
