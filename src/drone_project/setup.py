@@ -32,6 +32,8 @@ setup(
             'optical_flow_processor = drone_project.optical_flow_processor:main',
             'esc_data_processor = drone_project.esc_data_processor:main',
             'pose_converter = drone_project.pose_converter:main',
+            'vector_nevigation = drone_project.vector_nevigation:main',
+            'get_data = drone_project.get_data:main',
         ],
     },
 )

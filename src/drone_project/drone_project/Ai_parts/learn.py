@@ -90,7 +90,7 @@ criterion = nn.SmoothL1Loss()  # Huber Loss
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Train the model
-num_epochs = 100000
+num_epochs = 1000
 for epoch in range(num_epochs):
     model.train()
     optimizer.zero_grad()

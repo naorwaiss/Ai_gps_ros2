@@ -14,6 +14,7 @@ drone_project/fc_inharit_opticflow.py
 drone_project/get_data.py
 drone_project/optical_flow_processor.py
 drone_project/pose_converter.py
+drone_project/vector_nevigation.py
 launch/drone_launch.py
 launch/optical_flow_processor.launch.py
 resource/drone_project

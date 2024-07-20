@@ -1,0 +1,38 @@
+[0.502s] Invoking command in '/home/naor/Desktop/naor/study/Ai_gps_ros2/src/drone_project': PYTHONPATH=/home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/drone_project build --build-base /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build install --record /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/install.log --single-version-externally-managed install_data
+[0.654s] running egg_info
+[0.663s] writing ../../build/drone_project/drone_project.egg-info/PKG-INFO
+[0.663s] writing dependency_links to ../../build/drone_project/drone_project.egg-info/dependency_links.txt
+[0.664s] writing entry points to ../../build/drone_project/drone_project.egg-info/entry_points.txt
+[0.664s] writing requirements to ../../build/drone_project/drone_project.egg-info/requires.txt
+[0.664s] writing top-level names to ../../build/drone_project/drone_project.egg-info/top_level.txt
+[0.683s] reading manifest file '../../build/drone_project/drone_project.egg-info/SOURCES.txt'
+[0.683s] writing manifest file '../../build/drone_project/drone_project.egg-info/SOURCES.txt'
+[0.683s] running build
+[0.684s] running build_py
+[0.684s] copying drone_project/optical_flow_processor.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project
+[0.684s] copying drone_project/get_data.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project
+[0.684s] copying drone_project/pose_converter.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project
+[0.684s] copying drone_project/fc_inharit_opticflow.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project
+[0.684s] copying drone_project/vector_nevigation.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project
+[0.685s] running install
+[0.688s] running install_lib
+[0.697s] copying /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project/get_data.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project
+[0.697s] copying /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build/lib/drone_project/vector_nevigation.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project
+[0.698s] byte-compiling /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project/get_data.py to get_data.cpython-310.pyc
+[0.699s] byte-compiling /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project/vector_nevigation.py to vector_nevigation.cpython-310.pyc
+[0.699s] running install_data
+[0.699s] copying package.xml -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/share/drone_project
+[0.700s] copying launch/optical_flow_processor.launch.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/share/drone_project/launch
+[0.700s] copying launch/drone_launch.py -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/share/drone_project/launch
+[0.700s] copying resource/drone_project -> /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/share/ament_index/resource_index/packages
+[0.700s] running install_egg_info
+[0.710s] removing '/home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project-0.0.1-py3.10.egg-info' (and everything under it)
+[0.710s] Copying ../../build/drone_project/drone_project.egg-info to /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages/drone_project-0.0.1-py3.10.egg-info
+[0.711s] running install_scripts
+[0.797s] Installing esc_data_processor script to /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/drone_project
+[0.797s] Installing get_data script to /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/drone_project
+[0.798s] Installing optical_flow_processor script to /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/drone_project
+[0.798s] Installing pose_converter script to /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/drone_project
+[0.798s] Installing vector_nevigation script to /home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/drone_project
+[0.798s] writing list of installed files to '/home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/install.log'
+[0.813s] Invoked command in '/home/naor/Desktop/naor/study/Ai_gps_ros2/src/drone_project' returned '0': PYTHONPATH=/home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/naor/Desktop/naor/study/Ai_gps_ros2/install/drone_project/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/drone_project build --build-base /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/build install --record /home/naor/Desktop/naor/study/Ai_gps_ros2/build/drone_project/install.log --single-version-externally-managed install_data
