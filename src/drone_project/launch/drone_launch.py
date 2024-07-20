@@ -58,6 +58,16 @@ def generate_launch_description():
         #output='screen'
     )
 
+    # Node for vector_publisher_node
+    vector_publisher_node = Node(
+        package='vector_publisher',
+        executable='vector_publisher_node',
+        name='vector_publisher_node',
+        #output='screen'
+    )
+
+
+
     # Launch description to run MAVROS, pose_converter, esc_data_processor, v4l2_camera_node, and optical_flow_processor_node
     return LaunchDescription([
         fcu_url,
@@ -67,4 +77,5 @@ def generate_launch_description():
         esc_data_processor_process,
         v4l2_camera_node,
         optical_flow_processor_node
+        vector_publisher_node
     ])
