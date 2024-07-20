@@ -76,6 +76,6 @@ def generate_launch_description():
         pose_converter_process,
         esc_data_processor_process,
         v4l2_camera_node,
-        optical_flow_processor_node
+        optical_flow_processor_node,
         vector_publisher_node
     ])
