@@ -375,7 +375,7 @@ class Data_csv:
                         self.listener.linear_acceleration_z,
                         self.listener.angular_velocity_x, self.listener.angular_velocity_y,
                         self.listener.angular_velocity_z,
-                        self.listener.compass, self.listener.battery_voltage,
+                        self.listener.compass, self.listener.cell_voltage,
                         self.listener.roll, self.listener.pitch, self.listener.yaw,
                         self.listener.x_gps, self.listener.y_gps, self.listener.z_gps
                     ]
